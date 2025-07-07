@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fia7
+  labels:
+    tier: backend
+spec:
+  containers:
+  - name: fia7-pod
+    image: gorkazabarte/fia7:1.1.0
+    ports:
+    - containerPort: 80
+  tolerations: 
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fia-frontend
+  labels:
+    tier: frontend
+spec:
+  containers:
+  - name: fia-frontend-pod
+    image: gorkazabarte/frontend:1.1.0
+    ports:
+    - containerPort: 5173
+  tolerations: 
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
