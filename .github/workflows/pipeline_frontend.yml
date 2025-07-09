@@ -1,9 +1,9 @@
 name: Frontend CICD
 on:
   push:
-    branches: [main]
+    branches: [main, dev*]
   pull_request:
-    branches: [main]
+    branches: [main, dev*]
 permissions:
   id-token: write
   contents: read
