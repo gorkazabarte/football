@@ -8,7 +8,7 @@ permissions:
   id-token: write
   contents: read
 env:
-  ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+  ENVIRONMENT: ${{ vars.ENV_STAGE }}
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -30,9 +30,6 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
           aws-region: us-west-2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
       - name: Build Backend
         working-directory: source/backend
         run: build.sh

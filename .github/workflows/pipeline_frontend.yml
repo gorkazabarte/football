@@ -8,10 +8,11 @@ permissions:
   id-token: write
   contents: read
 env:
-  ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+  ENVIRONMENT: ${{ vars.ENV_STAGE }}
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: ${{ vars.ENV_STAGE }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS credentials (OIDC)
@@ -27,13 +28,35 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: Upload Frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: source/frontend/dist
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ vars.ENV_STAGE }}
     needs: build
     steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: source/frontend/dist
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
+          aws-region: us-west-2
+      - name: Debug ENVIRONMENT variable
+        run: |
+          env
+          echo "ENVIRONMENT is: $ENVIRONMENT"
       - name: Upload Frontend to S3
         working-directory: source/frontend
-        run: |
-          aws s3 sync ./dist "s3://${ENVIRONMENT}-fia7-frontend" --delete
         env:
           AWS_DEFAULT_REGION: us-west-2
+        run: |
+          echo "Upload frontend to S3 bucket: ${ENVIRONMENT}-fia7-frontend"
+          aws s3 sync ./dist "s3://${ENVIRONMENT}-fia7-frontend" --delete
