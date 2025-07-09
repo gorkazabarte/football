@@ -12,14 +12,33 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
           aws-region: us-west-2
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.11.0
+        with:
+          versionSpec: '5.x'
+      - name: Run GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.11.0
+      - name: Show GitVersion
+        run: |
+          echo "VERSION=${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" | tee version.txt
+      - name: Upload Version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: ./version.txt
   build:
     runs-on: ubuntu-latest
     needs: prepare
@@ -30,6 +49,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
           aws-region: us-west-2
-      - name: Build Backend
-        working-directory: source/backend
-        run: build.sh
+      - name: Login Amazon ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build and push
+        env:
+          ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
+          ECR_REPOSITORY: "${{ env.ENVIRONMENT  }}-fia7"
+          IMAGE_TAG: ${{ needs.prepare.outputs.version }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

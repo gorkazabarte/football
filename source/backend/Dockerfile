@@ -1,12 +1,10 @@
-FROM python:3.12-slim
-
-WORKDIR /app/
+FROM public.ecr.aws/lambda/python:3.12
 
 COPY requirements.txt ./
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY source ./
+COPY . ./
 
-CMD ["uvicorn", "app:app",  "--host", "0.0.0.0", "--port", "80"]
+CMD ["app.handler"]
 

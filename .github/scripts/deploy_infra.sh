@@ -19,3 +19,7 @@ terragrunt apply --all --non-interactive -no-color
 echo "[INFO] Deploying S3 for application: ${APP_NAME} in environment: ${ENVIRONMENT}"
 cd ../s3 || exit
 terragrunt apply --all --non-interactive -no-color
+
+echo "[INFO] Deploying ECR for application: ${APP_NAME} in environment: ${ENVIRONMENT}"
+cd ../ecr || exit
+terragrunt apply --all --non-interactive -no-color

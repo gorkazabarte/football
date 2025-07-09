@@ -10,11 +10,41 @@ permissions:
 env:
   ENVIRONMENT: ${{ vars.ENV_STAGE }}
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    environment: ${{ env.ENVIRONMENT }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
+          aws-region: us-west-2
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.11.0
+        with:
+          versionSpec: '5.x'
+      - name: Run GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.11.0
+      - name: Show GitVersion
+        run: |
+          echo "VERSION=${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" | tee version.txt
+      - name: Upload Version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: ./version.sh
   build:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENV_STAGE }}
+    needs: prepare
+    environment: ${{ env.ENVIRONMENT }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -35,7 +65,7 @@ jobs:
           path: source/frontend/dist
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENV_STAGE }}
+    environment: ${{ env.ENVIRONMENT }}
     needs: build
     steps:
       - uses: actions/checkout@v4
@@ -49,10 +79,6 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
           aws-region: us-west-2
-      - name: Debug ENVIRONMENT variable
-        run: |
-          env
-          echo "ENVIRONMENT is: $ENVIRONMENT"
       - name: Upload Frontend to S3
         working-directory: source/frontend
         env:

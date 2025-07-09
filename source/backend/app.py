@@ -3,7 +3,7 @@ from boto3 import client
 
 dynamodb = client('dynamodb')
 
-def lambda_handler(event, context):
+def handler(event, context):
 
     print(f"Event {event}")
     print(f"Context {context}")

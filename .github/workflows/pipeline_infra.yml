@@ -42,5 +42,6 @@ jobs:
         run: ./.github/scripts/deploy_infra.sh
         env:
           APP_NAME: ${{ inputs.app_name }}
+          AWS_IAM_ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
           ENVIRONMENT: ${{ inputs.environment }}
           TF_BUCKET: ${{ inputs.environment }}-${{ inputs.app_name }}-tf
