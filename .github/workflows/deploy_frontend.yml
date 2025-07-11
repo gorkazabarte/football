@@ -1,0 +1,99 @@
+name: Deploy Frontend
+on:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: Name of the application
+        required: true
+        type: string
+        default: fia7
+      environment:
+        description: Deployment
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - stg
+          - prd
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
+          aws-region: us-west-2
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.11.0
+        with:
+          versionSpec: '5.x'
+      - name: Run GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.11.0
+      - name: Show GitVersion
+        run: |
+          echo "VERSION=${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}" | tee version.txt
+      - name: Upload Version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: ./version.txt
+  build:
+    runs-on: ubuntu-latest
+    needs: prepare
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
+          aws-region: us-west-2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build Frontend with NPM
+        working-directory: source/frontend
+        run: |
+          npm ci
+          npm run build
+      - name: Upload Frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: source/frontend/dist
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: source/frontend/dist
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github
+          aws-region: us-west-2
+      - name: Upload Frontend to S3
+        working-directory: source/frontend
+        env:
+          AWS_DEFAULT_REGION: us-west-2
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          echo "Upload frontend to S3 bucket: ${ENVIRONMENT}-fia7-frontend"
+          aws s3 sync ./dist "s3://${ENVIRONMENT}-fia7-frontend" --delete

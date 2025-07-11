@@ -1,0 +1,18 @@
+name: Build Backend
+on:
+  push:
+    branches: [main, dev*]
+  pull_request:
+    branches: [main, dev*]
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          docker build --file ./source/backend/PlayerDockerfile ./source/backend
+          docker build --file ./source/backend/TeamDockerfile ./source/backend

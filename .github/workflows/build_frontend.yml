@@ -1,0 +1,22 @@
+name: Build Frontend
+on:
+  push:
+    branches: [main, dev*]
+  pull_request:
+    branches: [main, dev*]
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build Frontend with NPM
+        working-directory: source/frontend
+        run: |
+          npm ci
+          npm run build
