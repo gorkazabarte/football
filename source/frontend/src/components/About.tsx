@@ -3,7 +3,7 @@ import teamImg from '../assets/aboutme/team.png';
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-white dark:bg-gray-950">
+    <section id="about" className="scroll-mt-20 py-20 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}  viewport={{ once: true }} className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white"> Football International Agency </h2>

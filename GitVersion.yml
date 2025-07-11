@@ -1,4 +1,4 @@
-next-version: 0.2
+next-version: 0.4
 assembly-versioning-scheme: MajorMinorPatchTag
 assembly-file-versioning-scheme: MajorMinorPatchTag
 assembly-informational-format: "{FullSemVer}"

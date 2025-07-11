@@ -1,10 +1,24 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import './index.css'
+
 import About from './components/About'
+import AddPlayer from './components/AddPlayer'
 import Contact from './components/Contact'
 import Countries from './components/Countries'
 import Players from './components/Players'
 import { Sun, Moon } from 'lucide-react'
+
+function ScrollSections() {
+  return (
+    <>
+      <About />
+      <Countries />
+      <Players />
+      <Contact />
+    </>
+  )
+}
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,16 +44,17 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev)
 
-  // Close menu on link click AND smooth scroll
   const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
     e.preventDefault()
     setIsMenuOpen(false)
     const el = document.getElementById(id)
     if (el) {
-      // scroll-margin-top needs to be set on target sections to offset fixed nav height
       el.scrollIntoView({ behavior: 'smooth' })
     }
   }
+
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
@@ -48,50 +63,34 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16">
             {/* Left: Name */}
-            <a href="#about" className="text-xl font-bold text-gray-950 dark:text-white transition-colors duration-200" onClick={(e) => handleNavLinkClick(e, 'about')}>
+            <Link to="/" className="text-xl font-bold text-gray-950 dark:text-white transition-colors duration-200">
               FIA
-            </a>
+            </Link>
 
             {/* Right: Navigation + Dark mode + Mobile menu */}
             <div className="flex items-center space-x-8">
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                {['about', 'countries', 'players', 'contact'].map((id) => (
-                  <a key={id} href={`#${id}`} onClick={(e) => handleNavLinkClick(e, id)} className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
-                    {id.charAt(0).toUpperCase() + id.slice(1)}
-                  </a>
-                ))}
+                {isHomePage &&
+                  ['about', 'countries', 'players', 'contact'].map((id) => (
+                    <a key={id} href={`#${id}`} onClick={(e) => handleNavLinkClick(e, id)} className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
+                      {id.charAt(0).toUpperCase() + id.slice(1)}
+                    </a>
+                  ))}
+                <Link to="/add-player" className="text-blue-600 hover:underline dark:text-blue-400">
+                  Add Player
+                </Link>
               </div>
 
               {/* Dark mode toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-lg text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
-                aria-label="Toggle dark mode"
-              >
+              <button onClick={toggleDarkMode} className="p-2 rounded-lg text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200" aria-label="Toggle dark mode">
                 {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
 
               {/* Mobile menu button */}
-              <button
-                onClick={toggleMenu}
-                className="md:hidden text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
-                aria-label="Toggle menu"
-              >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  {isMenuOpen ? (
-                    <path d="M6 18L18 6M6 6l12 12" />
-                  ) : (
-                    <path d="M4 6h16M4 12h16M4 18h16" />
-                  )}
+              <button onClick={toggleMenu} className="md:hidden text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200" aria-label="Toggle menu">
+                <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  {isMenuOpen ? (<path d="M6 18L18 6M6 6l12 12" />) : (<path d="M4 6h16M4 12h16M4 18h16" />)}
                 </svg>
               </button>
             </div>
@@ -101,16 +100,15 @@ function App() {
           {isMenuOpen && (
             <div className="md:hidden py-4">
               <div className="flex flex-col space-y-4">
-                {['about', 'countries', 'players', 'contact'].map((id) => (
-                  <a
-                    key={id}
-                    href={`#${id}`}
-                    className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200"
-                    onClick={(e) => handleNavLinkClick(e, id)}
-                  >
-                    {id.charAt(0).toUpperCase() + id.slice(1)}
-                  </a>
-                ))}
+                {isHomePage &&
+                  ['about', 'countries', 'players', 'contact'].map((id) => (
+                    <a key={id} href={`#${id}`} className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200" onClick={(e) => handleNavLinkClick(e, id)}>
+                      {id.charAt(0).toUpperCase() + id.slice(1)}
+                    </a>
+                  ))}
+                <Link to="/add-player" className="text-blue-600 hover:underline dark:text-blue-400">
+                  Add Player
+                </Link>
               </div>
             </div>
           )}
@@ -119,10 +117,10 @@ function App() {
 
       {/* Main content with padding-top for fixed nav */}
       <main className="pt-20">
-        <About />
-        <Countries />
-        <Players />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<ScrollSections />} />
+          <Route path="/add-player" element={<AddPlayer />} />
+        </Routes>
       </main>
 
       {/* Footer */}

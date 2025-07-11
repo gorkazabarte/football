@@ -1,37 +1,25 @@
-module "player" {
-  source   = "terraform-aws-modules/dynamodb-table/aws"
+module "team" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name      = "${var.environment}-${var.app_name}-player"
-  hash_key  = "Team"
-  range_key = "Points"
-
+  name     = "${var.environment}-${var.app_name}-team"
+  hash_key = "Team"
   attributes = [
     {
       name = "Team"
       type = "S"
-    },
-    {
-      name = "Points"
-      type = "N"
     }
   ]
 }
 
-module "team" {
-  source   = "terraform-aws-modules/dynamodb-table/aws"
+module "player" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name      = "${var.environment}-${var.app_name}-team"
-  hash_key  = "Name"
-  range_key = "Age"
-
+  name     = "${var.environment}-${var.app_name}-player"
+  hash_key = "Name"
   attributes = [
     {
       name = "Name"
       type = "S"
-    },
-    {
-      name = "Age"
-      type = "N"
     }
   ]
 }

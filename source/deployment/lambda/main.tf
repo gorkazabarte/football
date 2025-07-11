@@ -22,9 +22,9 @@ resource "aws_cloudwatch_log_group" "cloudwatch" {
 }
 
 resource "aws_iam_role" "role" {
-  for_each            = local.types
-  name                = "${var.environment}-${var.app_name}-${each.key}"
-  assume_role_policy  = data.aws_iam_policy_document.assume_role.json
+  for_each           = local.types
+  name               = "${var.environment}-${var.app_name}-${each.key}"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 resource "aws_iam_role_policy" "team" {
@@ -32,16 +32,16 @@ resource "aws_iam_role_policy" "team" {
   depends_on = [aws_cloudwatch_log_group.cloudwatch]
   name       = "${var.environment}-${var.app_name}-${each.key}"
   role       = aws_iam_role.role[each.key].name
-  policy     = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "dynamodb:GetItem",
           "dynamodb:PutItem"
         ]
-        Resource =  "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.environment}-${var.app_name}-${each.key}"
+        Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.environment}-${var.app_name}-${each.key}"
       },
       {
         Effect = "Allow",
@@ -58,7 +58,7 @@ resource "aws_iam_role_policy" "team" {
 
 resource "aws_lambda_function" "lambda" {
   for_each      = local.types
-  depends_on = [aws_cloudwatch_log_group.cloudwatch]
+  depends_on    = [aws_cloudwatch_log_group.cloudwatch]
   architectures = ["x86_64"]
   environment {
     variables = {
@@ -75,9 +75,9 @@ resource "aws_lambda_function" "lambda" {
   role          = aws_iam_role.role[each.key].arn
   package_type  = "Image"
   image_config {
-    command     = ["app.handler"]
+    command = ["${each.key}.handler"]
   }
-  image_uri     = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment}-${var.app_name}-${each.key}:${var.app_version}"
+  image_uri   = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment}-${var.app_name}-${each.key}:${var.app_version}"
   memory_size = 512
   timeout     = 30
 }
