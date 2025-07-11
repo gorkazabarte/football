@@ -106,7 +106,7 @@ jobs:
         with:
           terragrunt-version: 0.80.4
       - name: Cloudfront invalidation
-        working-directory: source/deployment
+        working-directory: source/deployment/cloudfront
         run: |
           terragrunt output -raw cloudfront_distribution_id
           terragrunt output cloudfront_distribution_id
