@@ -40,7 +40,8 @@ def handler(event, context):
     if request_type == 'GET':
         print(f'[INFO] HTTP {request_type}')
         try:
-            return get_player(name='Madrid', age=99)
+            name = event.get("pathParameters", {}).get("name", "")
+            return get_player(name=name, age=26)
         except Exception as error:
             print(f'[ERROR] {error}')
         
