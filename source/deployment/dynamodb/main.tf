@@ -3,16 +3,10 @@ module "team" {
 
   name      = "${var.environment}-${var.app_name}-team"
   hash_key  = "Team"
-  range_key = "Points"
-
   attributes = [
     {
       name = "Team"
       type = "S"
-    },
-    {
-      name = "Points"
-      type = "N"
     }
   ]
 }
@@ -22,16 +16,10 @@ module "player" {
 
   name      = "${var.environment}-${var.app_name}-player"
   hash_key  = "Name"
-  range_key = "Age"
-
   attributes = [
     {
       name = "Name"
       type = "S"
-    },
-    {
-      name = "Age"
-      type = "N"
     }
   ]
 }

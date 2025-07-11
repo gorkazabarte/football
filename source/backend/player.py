@@ -8,8 +8,10 @@ dynamodb = client('dynamodb')
 app_name = getenv('APP_NAME')
 env_ = getenv('ENVIRONMENT')
 
+
 def is_request_get(request_type: str) -> bool:
     return 'GET' in request_type
+
 
 def get_player(name: str, age: int):
     return dynamodb.get_item(
@@ -19,19 +21,20 @@ def get_player(name: str, age: int):
                 'S': name
             },
             'Age': {
-                'N': age
+                'N': str(age)
             }
         }
     ).get('Item')
-    
+
+
 def get_request_info(event) -> list:
     try:
         return event['routeKey'].split()
     except KeyError as error:
         print(f'[ERROR] {error}')
 
-def handler(event, context):
 
+def handler(event, context):
     print(f'[INFO] Event {event}')
     print(f'[INFO] Context {context}')
 
@@ -44,10 +47,10 @@ def handler(event, context):
             if '/player' in request_path:
                 name = event.get("pathParameters", {}).get("name", "")
                 print(f"[INFO] /GET /player/{name}")
-                return get_player(name=name, age=26)
+                return get_player(name=name)
         except Exception as error:
             print(f'[ERROR] {error}')
-        
+
     elif request_type == 'POST':
         print(f'[INFO] HTTP {request_type}')
 
