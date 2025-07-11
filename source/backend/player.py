@@ -34,14 +34,18 @@ def handler(event, context):
 
     try:
         request_type, request_path = get_request_info(event)
+        print(f'[INFO] Request type {request_type}')
+        print(f'[INFO] Request path {request_path}')
     except KeyError as error:
         print(f'[ERROR] {error}')
 
     if request_type == 'GET':
         print(f'[INFO] HTTP {request_type}')
         try:
-            name = event.get("pathParameters", {}).get("name", "")
-            return get_player(name=name, age=26)
+            if '/player' in request_path:
+                name = event.get("pathParameters", {}).get("name", "")
+                print(f"[INFO] /GET /player/{name}")
+                return get_player(name=name, age=26)
         except Exception as error:
             print(f'[ERROR] {error}')
         
