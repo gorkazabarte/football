@@ -8,22 +8,44 @@ dynamodb = client('dynamodb')
 app_name = getenv('APP_NAME')
 env_ = getenv('ENVIRONMENT')
 
+def get_player(name: str, age: int):
+    return dynamodb.get_item(
+        TableName=f'{env_}-{app_name}-player',
+        Key={
+            'Name': {
+                'S': name
+            },
+            'Age': {
+                'N': age
+            }
+        }
+    ).get('Item')
+    
+def get_request_info(event) -> list:
+    return event['routeKey'].split()
+
 def handler(event, context):
 
-    print(f"Player Event {event}")
-    print(f"Player Context {context}")
+    print(f'[INFO] Event {event}')
+    print(f'[INFO] Context {context}')
 
-    query_string_params = event['queryStringParameters']
-    print(query_string_params)
+    request_type = ''
+    request_path = ''
 
-    path_params = query_string_params['path']
-    print(path_params)
+    try:
+        request_type, request_path = get_request_info(event)
+    except KeyError as error:
+        print(f'[ERROR] {error}')
 
-    request_type, request_path = event['routeKey'].split()
     if request_type == 'GET':
-        print(f"Request type {request_type}")
+        print(f'[INFO] HTTP {request_type}')
+        try:
+            return get_player(name='Madrid', age=99)
+        except Exception as error:
+            print(f'[ERROR] {error}')
+        
     elif request_type == 'POST':
-        print(f"Request type {request_type}")
+        print(f'[INFO] HTTP {request_type}')
 
     return {
         'statusCode': 200,
