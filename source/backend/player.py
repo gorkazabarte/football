@@ -13,15 +13,12 @@ def is_request_get(request_type: str) -> bool:
     return 'GET' in request_type
 
 
-def get_player(name: str, age: int):
+def get_player(name: str):
     return dynamodb.get_item(
         TableName=f'{env_}-{app_name}-player',
         Key={
             'Name': {
                 'S': name
-            },
-            'Age': {
-                'N': str(age)
             }
         }
     ).get('Item')
