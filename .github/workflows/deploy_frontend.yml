@@ -97,3 +97,16 @@ jobs:
         run: |
           echo "Upload frontend to S3 bucket: ${ENVIRONMENT}-fia7-frontend"
           aws s3 sync ./dist "s3://${ENVIRONMENT}-fia7-frontend" --delete
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - name: Install Terragrunt
+        uses: autero1/action-terragrunt@v3
+        with:
+          terragrunt-version: 0.80.4
+      - name: Cloudfront invalidation
+        working-directory: source/deployment
+        run: |
+          CLOUDFRONT_DISTRIBUTION_ID=$(terragrunt output -raw cloudfront_distribution_id)
+          aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" --paths "/*"
