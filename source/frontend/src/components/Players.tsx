@@ -14,12 +14,22 @@ const bestPlayers = [
 
 const BestPlayers: React.FC = () => {
   const [query, setQuery] = useState("");
+  const [selectedNationality, setSelectedNationality] = useState("All");
+  const [selectedPosition, setSelectedPosition] = useState("All");
 
-  const filteredPlayers = bestPlayers.filter((player) =>
-    `${player.name} ${player.position} ${player.nationality}`
+  const nationalities = ["All", ...Array.from(new Set(bestPlayers.map(p => p.nationality)))];
+  const positions = ["All", ...Array.from(new Set(bestPlayers.map(p => p.position)))];
+
+  const filteredPlayers = bestPlayers.filter((player) => {
+    const matchesQuery = `${player.name} ${player.position} ${player.nationality}`
       .toLowerCase()
-      .includes(query.toLowerCase())
-  );
+      .includes(query.toLowerCase());
+
+    const matchesNationality = selectedNationality === "All" || player.nationality === selectedNationality;
+    const matchesPosition = selectedPosition === "All" || player.position === selectedPosition;
+
+    return matchesQuery && matchesNationality && matchesPosition;
+  });
 
   return (
     <div
@@ -31,17 +41,42 @@ const BestPlayers: React.FC = () => {
           🏈 Top American Football Talents at FIA
         </h1>
 
-        {/* Search Input */}
-        <div className="mb-10">
+        {/* Filters */}
+        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-10">
           <input
             type="text"
             placeholder="Search by name, position or nationality..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="w-full md:w-1/2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
+
+          <select
+            value={selectedNationality}
+            onChange={(e) => setSelectedNationality(e.target.value)}
+            className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          >
+            {nationalities.map((nat) => (
+              <option key={nat} value={nat}>
+                {nat}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedPosition}
+            onChange={(e) => setSelectedPosition(e.target.value)}
+            className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          >
+            {positions.map((pos) => (
+              <option key={pos} value={pos}>
+                {pos}
+              </option>
+            ))}
+          </select>
         </div>
 
+        {/* Player Cards */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           initial="hidden"
@@ -78,7 +113,7 @@ const BestPlayers: React.FC = () => {
             ))
           ) : (
             <p className="text-center col-span-full text-gray-500 dark:text-gray-400">
-              No players match your search.
+              No players match your filters.
             </p>
           )}
         </motion.div>

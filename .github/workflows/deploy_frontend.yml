@@ -110,3 +110,9 @@ jobs:
         run: |
           CLOUDFRONT_DISTRIBUTION_ID=$(terragrunt output -raw cloudfront_distribution_id)
           aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" --paths "/*"
+        env:
+          APP_NAME: fia7
+          APP_VERSION: ${{ needs.prepare.outputs.version }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          TF_BUCKET: ${{ inputs.environment }}-fia7-tf
