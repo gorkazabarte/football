@@ -108,7 +108,10 @@ jobs:
       - name: Cloudfront invalidation
         working-directory: source/deployment
         run: |
+          terragrunt output -raw cloudfront_distribution_id
+          terragrunt output cloudfront_distribution_id
           CLOUDFRONT_DISTRIBUTION_ID=$(terragrunt output -raw cloudfront_distribution_id)
+          echo $CLOUDFRONT_DISTRIBUTION_ID
           aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" --paths "/*"
         env:
           APP_NAME: fia7
