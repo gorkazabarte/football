@@ -10,21 +10,12 @@ const About = () => {
           <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
               <p>
-                <span className="font-bold text-black dark:text-white">
-                  Football International Agency
-                </span>{" "}
-                brings{" "}
-                <span className="font-bold text-black dark:text-white">
-                  over 5 years of experience
-                </span>{" "}
-                in the professional sports industry.
+                <span className="font-bold text-black dark:text-white"> Football International Agency </span>{" "} brings{" "} <span className="font-bold text-black dark:text-white"> over 5 years of experience </span>{" "} in the professional sports industry.
               </p>
-
               <p>
                 At <span className="font-bold text-black dark:text-white">FIA</span>, we are more than just a football agency —
                 we are committed partners in the personal and professional growth of every player we represent.
               </p>
-
               <div>
                 <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2"> 🌟 Our Mission </h3>
                 <p>
@@ -58,11 +49,7 @@ const About = () => {
 
             <div className="flex justify-center">
               <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="relative w-64 h-64 rounded-full overflow-hidden">
-                <img
-                  src={teamImg}
-                  alt="FIA"
-                  className="w-full h-full object-cover"
-                />
+                <img src={teamImg} alt="FIA" className="w-full h-full object-cover"/>
               </motion.div>
             </div>
           </div>

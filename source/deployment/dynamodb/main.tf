@@ -1,3 +1,29 @@
+module "coach" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
+
+  name     = "${var.environment}-${var.app_name}-coach"
+  hash_key = "Name"
+  attributes = [
+    {
+      name = "Name"
+      type = "S"
+    }
+  ]
+}
+
+module "country" {
+  source = "terraform-aws-modules/dynamodb-table/aws"
+
+  name     = "${var.environment}-${var.app_name}-country"
+  hash_key = "Name"
+  attributes = [
+    {
+      name = "Name"
+      type = "S"
+    }
+  ]
+}
+
 module "team" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 

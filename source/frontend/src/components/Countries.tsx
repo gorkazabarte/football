@@ -28,10 +28,7 @@ const FiaCountries: React.FC = () => {
           🌍 Countries We Operate In
         </h1>
 
-        <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6"
-          initial="hidden"
-          animate="visible"
+        <motion.div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6" initial="hidden" animate="visible"
           variants={{
             visible: {
               transition: {
@@ -41,10 +38,7 @@ const FiaCountries: React.FC = () => {
           }}
         >
           {countries.map(({ name, flag }) => (
-            <motion.div
-              key={name}
-              className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-4 text-center text-lg font-medium text-gray-700 dark:text-gray-200 hover:shadow-xl transition duration-300"
-              whileHover={{ scale: 1.05 }}
+            <motion.div key={name} className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-4 text-center text-lg font-medium text-gray-700 dark:text-gray-200 hover:shadow-xl transition duration-300" whileHover={{ scale: 1.05 }}
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },

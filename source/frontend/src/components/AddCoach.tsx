@@ -37,34 +37,9 @@ const AddCoach = () => {
     <div className="max-w-xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md mt-10">
       <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">🎓 Add New Coach</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Coach Name"
-          value={coach.name}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-        />
-        <input
-          type="text"
-          name="nationality"
-          placeholder="Nationality"
-          value={coach.nationality}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-        />
-        <input
-          type="number"
-          name="experience"
-          placeholder="Years of Experience"
-          value={coach.experience}
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-        />
-
+        <input type="text" name="name" placeholder="Coach Name" value={coach.name} onChange={handleChange} required className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"/>
+        <input type="text" name="nationality" placeholder="Nationality" value={coach.nationality} onChange={handleChange} required className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"/>
+        <input type="number" name="experience" placeholder="Years of Experience" value={coach.experience} onChange={handleChange} required className="w-full p-3 rounded-md border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"/>
         <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700" disabled={loading}>
           {loading ? 'Submitting...' : 'Add Coach'}
         </button>

@@ -39,10 +39,7 @@ const Coach: React.FC = () => {
   });
 
   return (
-    <div
-      id="coach"
-      className="scroll-mt-20 p-6 md:p-10 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300"
-    >
+    <div id="coach" className="scroll-mt-20 p-6 md:p-10 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-6">
           🏆 Our Top Coaches at FIA
@@ -50,19 +47,8 @@ const Coach: React.FC = () => {
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row md:items-center gap-4 mb-10">
-          <input
-            type="text"
-            placeholder="Search by name or country..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full md:w-1/2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          />
-
-          <select
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          >
+          <input type="text" placeholder="Search by name or country..." value={query} onChange={(e) => setQuery(e.target.value)} className="w-full md:w-1/2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"/>
+          <select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)} className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
             {countries.map((country) => (
               <option key={country} value={country}>
                 {country}
@@ -70,11 +56,7 @@ const Coach: React.FC = () => {
             ))}
           </select>
 
-          <select
-            value={selectedExperience}
-            onChange={(e) => setSelectedExperience(e.target.value)}
-            className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-          >
+          <select value={selectedExperience} onChange={(e) => setSelectedExperience(e.target.value)} className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
             {experienceLevels.map((level) => (
               <option key={level} value={level}>
                 {level === "All" ? "All Experience" : level + " years"}
@@ -84,10 +66,7 @@ const Coach: React.FC = () => {
         </div>
 
         {/* Coach Cards */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-          initial="hidden"
-          animate="visible"
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" initial="hidden" animate="visible"
           variants={{
             visible: {
               transition: {
@@ -98,10 +77,7 @@ const Coach: React.FC = () => {
         >
           {filteredCoaches.length > 0 ? (
             filteredCoaches.map((coach) => (
-              <motion.div
-                key={coach.id}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
-                whileHover={{ scale: 1.05 }}
+              <motion.div key={coach.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300" whileHover={{ scale: 1.05 }}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 },
