@@ -6,6 +6,7 @@ import About from './components/About'
 import AddCoach from './components/AddCoach'
 import AddPlayer from './components/AddPlayer'
 import AddTeam from './components/AddTeam'
+import Coach from './components/Coach'
 import Contact from './components/Contact'
 import Countries from './components/Countries'
 import Players from './components/Players'
@@ -17,6 +18,7 @@ function ScrollSections() {
       <About />
       <Countries />
       <Players />
+      <Coach />
       <Contact />
     </>
   )
@@ -77,7 +79,7 @@ function App() {
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
                 {isHomePage &&
-                  ['about', 'countries', 'players', 'contact'].map((id) => (
+                  ['about', 'coach', 'countries', 'players', 'contact'].map((id) => (
                     <a key={id} href={`#${id}`} onClick={(e) => handleNavLinkClick(e, id)} className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">
                       {id.charAt(0).toUpperCase() + id.slice(1)}
                     </a>
@@ -121,7 +123,7 @@ function App() {
             <div className="md:hidden py-4">
               <div className="flex flex-col space-y-4">
                 {isHomePage &&
-                  ['about', 'countries', 'players', 'contact'].map((id) => (
+                  ['about', 'coach', 'countries', 'players', 'contact'].map((id) => (
                     <a key={id} href={`#${id}`} className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200" onClick={(e) => handleNavLinkClick(e, id)}>
                       {id.charAt(0).toUpperCase() + id.slice(1)}
                     </a>
