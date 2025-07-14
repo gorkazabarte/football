@@ -39,7 +39,9 @@ resource "aws_iam_role_policy" "team" {
         Effect = "Allow",
         Action = [
           "dynamodb:GetItem",
-          "dynamodb:PutItem"
+          "dynamodb:Query",
+          "dynamodb:PutItem",
+          "dynamodb:Scan"
         ]
         Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.environment}-${var.app_name}-${each.key}"
       },

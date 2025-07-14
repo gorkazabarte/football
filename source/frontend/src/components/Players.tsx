@@ -18,7 +18,7 @@ const BestPlayers: React.FC = () => {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const res = await fetch("YOUR_API_ENDPOINT_HERE");
+        const res = await fetch("https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/players");
         if (!res.ok) throw new Error("Failed to fetch players");
         const data = await res.json();
         setPlayers(data);
