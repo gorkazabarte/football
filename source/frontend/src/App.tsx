@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import './index.css'
 
 import About from './components/About'
+import AddCoach from './components/AddCoach'
 import AddPlayer from './components/AddPlayer'
+import AddTeam from './components/AddTeam'
 import Contact from './components/Contact'
 import Countries from './components/Countries'
 import Players from './components/Players'
@@ -44,6 +46,7 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleDarkMode = () => setIsDarkMode((prev) => !prev)
 
+
   const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
     e.preventDefault()
     setIsMenuOpen(false)
@@ -55,6 +58,8 @@ function App() {
 
   const location = useLocation()
   const isHomePage = location.pathname === '/'
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
@@ -77,9 +82,24 @@ function App() {
                       {id.charAt(0).toUpperCase() + id.slice(1)}
                     </a>
                   ))}
-                <Link to="/add-player" className="text-blue-600 hover:underline dark:text-blue-400">
-                  Add Player
-                </Link>
+                <div className="relative" ref={dropdownRef}>
+                    <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none">
+                      Database ▾
+                    </button>
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md z-50">
+                        <Link to="/add-player" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                          ➕ Add Player
+                        </Link>
+                        <Link to="/add-team" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                          🏟️ Add Team
+                        </Link>
+                        <Link to="/add-coach" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                          👔 Add Coach
+                        </Link>
+                      </div>
+                    )}
+                </div>
               </div>
 
               {/* Dark mode toggle */}
@@ -106,9 +126,9 @@ function App() {
                       {id.charAt(0).toUpperCase() + id.slice(1)}
                     </a>
                   ))}
-                <Link to="/add-player" className="text-blue-600 hover:underline dark:text-blue-400">
-                  Add Player
-                </Link>
+                 <Link to="/add-player" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">Add Player</Link>
+                 <Link to="/add-team" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">Add Team</Link>
+                 <Link to="/add-coach" className="text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-gray-400 transition-colors duration-200">Add Coach</Link>
               </div>
             </div>
           )}
@@ -120,6 +140,8 @@ function App() {
         <Routes>
           <Route path="/" element={<ScrollSections />} />
           <Route path="/add-player" element={<AddPlayer />} />
+          <Route path="/add-team" element={<AddTeam />} />
+          <Route path="/add-coach" element={<AddCoach />} />
         </Routes>
       </main>
 
