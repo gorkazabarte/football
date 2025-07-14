@@ -21,7 +21,15 @@ const BestPlayers: React.FC = () => {
         const res = await fetch("https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/players");
         if (!res.ok) throw new Error("Failed to fetch players");
         const data = await res.json();
-        setPlayers(data);
+
+        // Convert DynamoDB-style response to flat array
+        const formattedPlayers: Player[] = data.map((item: any) => ({
+          name: `${item.Name?.S ?? ""} ${item.Surname?.S ?? ""}`.trim(),
+          position: item.Position?.S ?? "",
+          nationality: item.Nationality?.S ?? "",
+        }));
+
+        setPlayers(formattedPlayers);
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -68,7 +76,6 @@ const BestPlayers: React.FC = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full md:w-1/2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
-
               <select
                 value={selectedNationality}
                 onChange={(e) => setSelectedNationality(e.target.value)}
@@ -108,9 +115,9 @@ const BestPlayers: React.FC = () => {
               }}
             >
               {filteredPlayers.length > 0 ? (
-                filteredPlayers.map((player) => (
+                filteredPlayers.map((player, i) => (
                   <motion.div
-                    key={player.name}
+                    key={i}
                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
                     whileHover={{ scale: 1.05 }}
                     variants={{
