@@ -1,7 +1,7 @@
 from json import dumps
 from os import getenv
 
-from db.operations import get_player, post_player
+from db.operations import get_player, get_players, post_player
 
 app_name = getenv('APP_NAME')
 env_ = getenv('ENVIRONMENT')
@@ -31,7 +31,10 @@ def handler(event, context) -> dict | None:
 
     if check_request_type(request_type, 'GET'):
         try:
-            if check_request_path(request_path, 'player'):
+            if check_request_path(request_path, 'players'):
+                print(f'[INFO] /GET /players')
+                return get_players(table_name=f'{env_}-{app_name}-player')
+            elif check_request_path(request_path, 'player'):
                 print(f'[INFO] /GET /player/{(player_name := event.get('pathParameters', {}).get('name', ''))}')
                 return get_player(player_name=player_name, table_name=f'{env_}-{app_name}-player')
         except Exception as error:
