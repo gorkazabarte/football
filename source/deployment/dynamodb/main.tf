@@ -11,10 +11,10 @@ module "coach" {
   ]
 }
 
-module "country" {
+module "player" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name     = "${var.environment}-${var.app_name}-country"
+  name     = "${var.environment}-${var.app_name}-player"
   hash_key = "Name"
   attributes = [
     {
@@ -24,23 +24,23 @@ module "country" {
   ]
 }
 
-module "team" {
+module "school" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name     = "${var.environment}-${var.app_name}-team"
-  hash_key = "Team"
+  name     = "${var.environment}-${var.app_name}-school"
+  hash_key = "Name"
   attributes = [
     {
-      name = "Team"
+      name = "Name"
       type = "S"
     }
   ]
 }
 
-module "player" {
+module "university" {
   source = "terraform-aws-modules/dynamodb-table/aws"
 
-  name     = "${var.environment}-${var.app_name}-player"
+  name     = "${var.environment}-${var.app_name}-university"
   hash_key = "Name"
   attributes = [
     {
