@@ -101,7 +101,7 @@ jobs:
           ECR_REPOSITORY: "${{ inputs.environment }}-fia7-school"
           IMAGE_TAG: ${{ needs.prepare.outputs.version }}
         run: |
-          docker build -f ./source/backend/SchoolDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker build -f ./source/backend/SchoolsDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       - name: Universities Build and push
         continue-on-error: true
@@ -110,7 +110,7 @@ jobs:
           ECR_REPOSITORY: "${{ inputs.environment }}-fia7-university"
           IMAGE_TAG: ${{ needs.prepare.outputs.version }}
         run: |
-          docker build -f ./source/backend/TeamDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker build -f ./source/backend/UniversitiesDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
