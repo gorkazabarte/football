@@ -1,3 +1,3 @@
 # FIA7
 
-Football International Agency website hosted in AWS
+Football Intelligence Agency website hosted in AWS

@@ -25,7 +25,7 @@ const FiaCountries: React.FC = () => {
     <div id="countries" className="scroll-mt-20 p-6 md:p-10 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-800 dark:text-white mb-10">
-          🌍 Countries We Operate In
+          Countries We Operate In
         </h1>
 
         <motion.div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6" initial="hidden" animate="visible"

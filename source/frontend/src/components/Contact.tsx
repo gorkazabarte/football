@@ -46,7 +46,7 @@ const Contact = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Get in Touch ☎️
+            Get in Touch
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
@@ -58,7 +58,7 @@ const Contact = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 dark:text-gray-300 hover:text-blue-500"
                 >
-                  Football International Agency
+                  Football Intelligence Agency
                 </a>
               </div>
               <div className="flex items-center space-x-4">

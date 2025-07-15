@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import PlayerProfile from "./PlayerProfile";
 
 interface Player {
   name: string;
   position: string;
   nationality: string;
+  number?: number;
+  height?: string;
+  weight?: string;
+  year?: string;
+  hometown?: string;
+  imageUrl?: string;
 }
 
 const BestPlayers: React.FC = () => {
@@ -14,6 +21,7 @@ const BestPlayers: React.FC = () => {
   const [selectedPosition, setSelectedPosition] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -22,11 +30,16 @@ const BestPlayers: React.FC = () => {
         if (!res.ok) throw new Error("Failed to fetch players");
         const data = await res.json();
 
-        // Convert DynamoDB-style response to flat array
         const formattedPlayers: Player[] = data.map((item: any) => ({
           name: `${item.Name?.S ?? ""} ${item.Surname?.S ?? ""}`.trim(),
           position: item.Position?.S ?? "",
           nationality: item.Nationality?.S ?? "",
+          number: Number(item.Number?.N ?? 0),
+          height: item.Height?.S ?? "",
+          weight: item.Weight?.S ?? "",
+          year: item.Year?.S ?? "",
+          hometown: item.Hometown?.S ?? "",
+          imageUrl: item.ImageUrl?.S ?? "", // optional
         }));
 
         setPlayers(formattedPlayers);
@@ -58,7 +71,7 @@ const BestPlayers: React.FC = () => {
     <div id="players" className="scroll-mt-20 p-6 md:p-10 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-6">
-          🏈 Top American Football Talents at FIA
+          Top American Football Talents at FIA
         </h1>
 
         {loading ? (
@@ -115,23 +128,24 @@ const BestPlayers: React.FC = () => {
               }}
             >
               {filteredPlayers.length > 0 ? (
-                filteredPlayers.map((player, i) => (
+                filteredPlayers.slice(0, 16).map((player, i) => (
                   <motion.div
                     key={i}
-                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
+                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300 cursor-pointer"
                     whileHover={{ scale: 1.05 }}
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0 },
                     }}
+                    onClick={() => setSelectedPlayer(player)}
                   >
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                       {player.name}
                     </h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <p className="text-sm text-gray-600 dark:text-gray-500">
                       {player.position}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                    <p className="text-sm text-blue-600 dark:text-blue-400 italic">
                       {player.nationality}
                     </p>
                   </motion.div>
@@ -145,6 +159,27 @@ const BestPlayers: React.FC = () => {
           </>
         )}
       </div>
+
+      {/* Popup */}
+      {selectedPlayer && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+          onClick={() => setSelectedPlayer(null)}
+        >
+          <div
+            className="relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 text-white text-3xl"
+              onClick={() => setSelectedPlayer(null)}
+            >
+              &times;
+            </button>
+            <PlayerProfile {...selectedPlayer} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
