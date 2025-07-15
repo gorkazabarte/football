@@ -76,6 +76,15 @@ jobs:
       - name: Login Amazon ECR
         id: ecr
         uses: aws-actions/amazon-ecr-login@v1
+      - name: Coaches Build and push
+        continue-on-error: true
+        env:
+          ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
+          ECR_REPOSITORY: "${{ inputs.environment }}-fia7-coach"
+          IMAGE_TAG: ${{ needs.prepare.outputs.version }}
+        run: |
+          docker build -f ./source/backend/CoachesDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       - name: Players Build and push
         continue-on-error: true
         env:
@@ -83,13 +92,22 @@ jobs:
           ECR_REPOSITORY: "${{ inputs.environment }}-fia7-player"
           IMAGE_TAG: ${{ needs.prepare.outputs.version }}
         run: |
-          docker build -f ./source/backend/PlayersDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker build -f ./source/backend/UniversitiesDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-      - name: Team Build and push
+      - name: Schools Build and push
         continue-on-error: true
         env:
           ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
-          ECR_REPOSITORY: "${{ inputs.environment }}-fia7-team"
+          ECR_REPOSITORY: "${{ inputs.environment }}-fia7-school"
+          IMAGE_TAG: ${{ needs.prepare.outputs.version }}
+        run: |
+          docker build -f ./source/backend/SchoolDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Universities Build and push
+        continue-on-error: true
+        env:
+          ECR_REGISTRY: ${{ steps.ecr.outputs.registry }}
+          ECR_REPOSITORY: "${{ inputs.environment }}-fia7-university"
           IMAGE_TAG: ${{ needs.prepare.outputs.version }}
         run: |
           docker build -f ./source/backend/TeamDockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./source/backend

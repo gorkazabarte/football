@@ -1,5 +1,5 @@
 locals {
-  types = toset(["player", "team"])
+  types = toset(["coach", "player", "school", "university"])
 }
 
 data "aws_iam_policy_document" "assume_role" {
