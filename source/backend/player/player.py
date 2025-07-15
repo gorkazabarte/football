@@ -1,8 +1,8 @@
 from json import dumps, loads
 from os import getenv
 
-from source.backend.api.operations import check_request_type, check_request_path, get_path_params, get_route_info
-from source.backend.db.operations import get_item, get_table, post_item
+from api.operations import check_request_type, check_request_path, get_path_params, get_route_info
+from db.operations import get_item, get_table, post_item
 
 APP_NAME = getenv('APP_NAME')
 ENV = getenv('ENVIRONMENT')
