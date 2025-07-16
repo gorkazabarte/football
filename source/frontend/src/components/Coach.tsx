@@ -4,31 +4,31 @@ import { motion } from "framer-motion";
 interface Coach {
   id: string;
   name: string;
-  country: string;
-  experience: number;
+  type: string;
+  university: string
 }
 
 const Coach: React.FC = () => {
   const [coaches, setCoaches] = useState<Coach[]>([]);
   const [query, setQuery] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("All");
-  const [selectedExperience, setSelectedExperience] = useState("All");
+  const [selectedType, setSelectedType] = useState("All");
+  const [selectedUniversity, setSelectedUniversity] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCoaches = async () => {
       try {
-        const res = await fetch("https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/coaches"); // Replace with your real endpoint
+        const res = await fetch(
+          "https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/coaches"
+        );
         if (!res.ok) throw new Error("Failed to fetch coaches");
         const data = await res.json();
 
-        // If using DynamoDB JSON format:
         const parsed = data.map((c: any) => ({
-          id: c.Id.S,
           name: c.Name.S,
-          country: c.Country.S,
-          experience: parseInt(c.Experience.N, 10),
+          type: c.Type.S,
+          university: c.University.S
         }));
 
         setCoaches(parsed);
@@ -42,25 +42,18 @@ const Coach: React.FC = () => {
     fetchCoaches();
   }, []);
 
-  const countries = ["All", ...Array.from(new Set(coaches.map((c) => c.country)))];
-  const experienceLevels = ["All", "0-5", "6-10", "11+"];
+  const types = ["All", ...Array.from(new Set(coaches.map((c) => c.type)))];
+  const universities = ["All", ...Array.from(new Set(coaches.map((c) => c.university)))];
 
   const filteredCoaches = coaches.filter((coach) => {
     const matchesQuery =
       coach.name.toLowerCase().includes(query.toLowerCase()) ||
-      coach.country.toLowerCase().includes(query.toLowerCase());
+      coach.type.toLowerCase().includes(query.toLowerCase());
 
-    const matchesCountry = selectedCountry === "All" || coach.country === selectedCountry;
+    const matchesType = selectedType === "All" || coach.type === selectedType;
+    const matchesUniversity = selectedUniversity === "All" || coach.university === selectedUniversity;
 
-    let matchesExperience = true;
-    if (selectedExperience !== "All") {
-      const exp = coach.experience;
-      if (selectedExperience === "0-5") matchesExperience = exp <= 5;
-      else if (selectedExperience === "6-10") matchesExperience = exp >= 6 && exp <= 10;
-      else if (selectedExperience === "11+") matchesExperience = exp >= 11;
-    }
-
-    return matchesQuery && matchesCountry && matchesExperience;
+    return matchesQuery && matchesType && matchesUniversity;
   });
 
   return (
@@ -83,31 +76,32 @@ const Coach: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-10">
               <input
                 type="text"
-                placeholder="Search by name or country..."
+                placeholder="Search by name or type..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full md:w-1/2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
+
               <select
-                value={selectedCountry}
-                onChange={(e) => setSelectedCountry(e.target.value)}
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
                 className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               >
-                {countries.map((country) => (
-                  <option key={country} value={country}>
-                    {country}
+                {types.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
                   </option>
                 ))}
               </select>
 
               <select
-                value={selectedExperience}
-                onChange={(e) => setSelectedExperience(e.target.value)}
+                value={selectedUniversity}
+                onChange={(e) => setSelectedUniversity(e.target.value)}
                 className="w-full md:w-1/4 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               >
-                {experienceLevels.map((level) => (
-                  <option key={level} value={level}>
-                    {level === "All" ? "All Experience" : `${level} years`}
+                {universities.map((uni) => (
+                  <option key={uni} value={uni}>
+                    {uni}
                   </option>
                 ))}
               </select>
@@ -141,10 +135,10 @@ const Coach: React.FC = () => {
                       {coach.name}
                     </h2>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Country: {coach.country}
+                      Type: {coach.type}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                      Experience: {coach.experience} years
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      University: {coach.university}
                     </p>
                   </motion.div>
                 ))
