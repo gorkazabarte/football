@@ -16,7 +16,7 @@ const Universities: React.FC = () => {
   useEffect(() => {
     const fetchUniversities = async () => {
       try {
-        const res = await fetch("https://your-api-url.com/universities"); // Replace with actual endpoint
+        const res = await fetch("https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/universities"); // Replace with actual endpoint
         if (!res.ok) throw new Error("Failed to fetch universities");
         const data = await res.json();
 
