@@ -121,7 +121,7 @@ const Coach: React.FC = () => {
               }}
             >
               {filteredCoaches.length > 0 ? (
-                filteredCoaches.map((coach) => (
+                filteredCoaches.slice(0, 16).map((coach) => (
                   <motion.div
                     key={coach.id}
                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
