@@ -77,7 +77,7 @@ resource "aws_lambda_function" "lambda" {
   role          = aws_iam_role.role[each.key].arn
   package_type  = "Image"
   image_config {
-    command = ["${each.key}.handler"]
+    command = ["${each.key}.${each.key}.handler"]
   }
   image_uri   = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment}-${var.app_name}-${each.key}:${var.app_version}"
   memory_size = 512
