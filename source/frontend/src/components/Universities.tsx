@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 interface University {
@@ -115,19 +116,20 @@ const Universities: React.FC = () => {
             >
               {filteredUniversities.length > 0 ? (
                 filteredUniversities.slice(0, 16).map((uni, i) => (
-                  <motion.div
-                    key={i}
-                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0 },
-                    }}
-                  >
-                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{uni.name}</h2>
-                    <p className="text-sm text-gray-400 dark:text-gray-500">{uni.state}</p>
-                    <p className="text-sm text-blue-600 dark:text-gray-500 italic">{uni.conference}</p>
-                  </motion.div>
+                  <Link key={i} to={`/university/${encodeURIComponent(uni.name)}`}>
+                    <motion.div
+                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300 cursor-pointer"
+                     whileHover={{ scale: 1.05 }}
+                     variants={{
+                       hidden: { opacity: 0, y: 20 },
+                       visible: { opacity: 1, y: 0 },
+                     }}
+                    >
+                      <h2 className="text-xl font-semibold text-gray-800 dark:text-white">{uni.name}</h2>
+                      <p className="text-sm text-gray-400 dark:text-gray-500">{uni.state}</p>
+                      <p className="text-sm text-blue-600 dark:text-gray-500 italic">{uni.conference}</p>
+                    </motion.div>
+                  </Link>
                 ))
               ) : (
                 <p className="text-center col-span-full text-gray-500 dark:text-gray-400">

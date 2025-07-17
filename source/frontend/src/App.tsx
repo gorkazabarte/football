@@ -12,6 +12,7 @@ import Contact from './components/Contact'
 import Players from './components/Players'
 import Schools from './components/Schools'
 import Universities from './components/Universities'
+import UniversityDetails from './components/UniversityDetails'
 //import Countries from './components/Countries'
 
 function ScrollSections() {
@@ -147,6 +148,7 @@ function App() {
           <Route path="/add-player" element={<AddPlayer />} />
           <Route path="/add-team" element={<AddTeam />} />
           <Route path="/add-coach" element={<AddCoach />} />
+          <Route path="/university/:name" element={<UniversityDetails />} />
         </Routes>
       </main>
 
