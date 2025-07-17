@@ -93,7 +93,7 @@ const Universities: React.FC = () => {
               }}
             >
               {filteredUniversities.length > 0 ? (
-                filteredUniversities.map((uni, i) => (
+                filteredUniversities.slice(0, 16).map((uni, i) => (
                   <motion.div
                     key={i}
                     className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md hover:shadow-xl p-5 text-center transition duration-300"
