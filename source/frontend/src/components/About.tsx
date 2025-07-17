@@ -6,11 +6,11 @@ const About = () => {
     <section id="about" className="scroll-mt-20 py-20 bg-white dark:bg-gray-950">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}  viewport={{ once: true }} className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white"> Football International Agency </h2>
+          <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white"> Football Intelligence Agency 7</h2>
           <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6 text-lg text-gray-600 dark:text-gray-300">
               <p>
-                <span className="font-bold text-black dark:text-white"> Football International Agency </span>{" "} brings{" "} <span className="font-bold text-black dark:text-white"> over 5 years of experience </span>{" "} in the professional sports industry.
+                <span className="font-bold text-black dark:text-white"> Football Intelligence Agency </span>{" "} brings{" "} <span className="font-bold text-black dark:text-white"> over 5 years of experience </span>{" "} in the professional sports industry.
               </p>
               <p>
                 At <span className="font-bold text-black dark:text-white">FIA</span>, we are more than just a football agency —
@@ -19,7 +19,7 @@ const About = () => {
               <div>
                 <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2"> 🌟 Our Mission </h3>
                 <p>
-                    We aim to guide footballers through every stage of their careers — from youth development to international success —
+                    We aim to guide footballers through every stage of their careers — from youth development to success —
                     with strategic planning, ethical representation, and unwavering support.
                 </p>
               </div>

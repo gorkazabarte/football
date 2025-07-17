@@ -58,7 +58,7 @@ const Contact = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 dark:text-gray-300 hover:text-blue-500"
                 >
-                  Football International Agency
+                  Football Intelligence Agency
                 </a>
               </div>
               <div className="flex items-center space-x-4">

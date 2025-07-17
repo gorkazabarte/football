@@ -153,7 +153,7 @@ function App() {
       {/* Footer */}
       <footer className="bg-gray-100 dark:bg-gray-900 py-8 transition-colors duration-200">
         <div className="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300 transition-colors duration-200">
-          <p>&copy; {new Date().getFullYear()} - Football International Agency</p>
+          <p>&copy; {new Date().getFullYear()} - Football Intelligence Agency 7</p>
         </div>
       </footer>
     </div>
