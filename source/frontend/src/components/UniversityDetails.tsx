@@ -87,7 +87,7 @@ const UniversityDetails = () => {
               width: "max-content",
             }}
           >
-            <PlayerCard name={name} position={position} number={number} />
+            <PlayerCard name={name} number={number} />
           </div>
         ))}
       </div>
