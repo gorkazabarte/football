@@ -2,17 +2,33 @@ import React from "react";
 
 interface PlayerCardProps {
   name: string;
-  position: string;
   number: number;
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ name, position, number }) => {
+const PlayerCard: React.FC<PlayerCardProps> = ({ name, number }) => {
   return (
-    <div className="bg-white text-black rounded-xl shadow-lg px-3 py-2 text-center text-sm w-24 z-40">
-      <div className="font-bold">{name}</div>
-      <div className="text-xs text-gray-600">{position}</div>
-      <div className="text-lg font-semibold">#{number}</div>
-    </div>
+    <>
+      {/* Full card for sm and up */}
+      <div
+        className="
+          hidden sm:flex
+          flex-col items-center
+          bg-gray-800 text-white
+          rounded-md shadow
+          px-2 py-1
+          w-20 sm:w-24
+          text-[9px] sm:text-[10px]
+        "
+      >
+        <div className="font-bold text-sm sm:text-base">#{number}</div>
+        <div className="truncate text-center mt-0.5">{name}</div>
+      </div>
+
+      {/* Minimal version for smaller screens */}
+      <div className="sm:hidden text-white text-[9px] text-center">
+        {name}
+      </div>
+    </>
   );
 };
 
