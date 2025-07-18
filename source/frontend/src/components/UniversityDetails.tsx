@@ -5,17 +5,17 @@ const UniversityDetails = () => {
   const universityName = "Gridiron State University";
   const yards = [0, 10, 20, 30, 40, 50, 40, 30, 20, 10, 0];
   const players = [
-    { name: "Alex Gray", position: "QB", number: 7, left: "45%", top: "20%" },
-    { name: "Jayden Smith", position: "WR", number: 11, left: "30%", top: "30%" },
-    { name: "Ty Moore", position: "WR", number: 10, left: "60%", top: "30%" },
-    { name: "Marcus Hill", position: "RB", number: 22, left: "37%", top: "45%" },
-    { name: "Derek Young", position: "RB", number: 25, left: "52%", top: "45%" },
-    { name: "Samuel James", position: "OL", number: 55, left: "30%", top: "60%" },
-    { name: "Brandon Lee", position: "OL", number: 66, left: "40%", top: "70%" },
-    { name: "Kevin White", position: "OL", number: 73, left: "50%", top: "80%" },
-    { name: "Lucas Brown", position: "OL", number: 74, left: "60%", top: "55%" },
-    { name: "Ryan Clark", position: "OL", number: 70, left: "70%", top: "65%" },
-    { name: "Ethan Scott", position: "TE", number: 88, left: "80%", top: "75%" },
+    { name: "Alex Gray", number: 7, left: "45%", top: "20%" },
+    { name: "Jayden Smith", number: 11, left: "30%", top: "30%" },
+    { name: "Ty Moore", number: 10, left: "60%", top: "30%" },
+    { name: "Marcus Hill", number: 22, left: "37%", top: "45%" },
+    { name: "Derek Young", number: 25, left: "52%", top: "45%" },
+    { name: "Samuel James", number: 55, left: "30%", top: "60%" },
+    { name: "Brandon Lee", number: 66, left: "40%", top: "70%" },
+    { name: "Kevin White", number: 73, left: "50%", top: "80%" },
+    { name: "Lucas Brown", number: 74, left: "60%", top: "55%" },
+    { name: "Ryan Clark", number: 70, left: "70%", top: "65%" },
+    { name: "Ethan Scott", number: 88, left: "80%", top: "75%" },
   ];
 
   return (
@@ -74,7 +74,7 @@ const UniversityDetails = () => {
         ))}
 
         {/* Player Positions */}
-        {players.map(({ name, position, number, left, top }, index) => (
+        {players.map(({ name, number, left, top }, index) => (
           <div
             key={index}
             className="absolute"
