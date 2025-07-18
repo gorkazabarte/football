@@ -1,38 +1,90 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React from "react";
+import PlayerCard from "./PlayerCard";
 
-const UniversityDetails: React.FC = () => {
-  const { name } = useParams();
-  const [university, setUniversity] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUniversity = async () => {
-      try {
-        const res = await fetch("https://ysvadm2b2a.execute-api.us-west-2.amazonaws.com/dev/universities");
-        const data = await res.json();
-        const uni = data.find((item: any) => item.Name?.S === name);
-        setUniversity(uni);
-      } catch (error) {
-        console.error("Error fetching university", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUniversity();
-  }, [name]);
-
-  if (loading) return <p className="text-center text-white font-bold">Loading...</p>;
-  if (!university) return <p className="text-center text-white font-bold">University not found.</p>;
+const UniversityDetails = () => {
+  const universityName = "Gridiron State University";
+  const yards = [0, 10, 20, 30, 40, 50, 40, 30, 20, 10, 0];
+  const players = [
+    { name: "Alex Gray", position: "QB", number: 7, left: "45%", top: "12%" },
+    { name: "Jayden Smith", position: "WR", number: 11, left: "30%", top: "20%" },
+    { name: "Ty Moore", position: "WR", number: 10, left: "60%", top: "20%" },
+    { name: "Marcus Hill", position: "RB", number: 22, left: "40%", top: "30%" },
+    { name: "Derek Young", position: "RB", number: 25, left: "50%", top: "30%" },
+    { name: "Samuel James", position: "OL", number: 55, left: "30%", top: "45%" },
+    { name: "Brandon Lee", position: "OL", number: 66, left: "40%", top: "55%" },
+    { name: "Kevin White", position: "OL", number: 73, left: "50%", top: "65%" },
+    { name: "Lucas Brown", position: "OL", number: 74, left: "60%", top: "40%" },
+    { name: "Ryan Clark", position: "OL", number: 70, left: "70%", top: "50%" },
+    { name: "Ethan Scott", position: "TE", number: 88, left: "80%", top: "60%" },
+  ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4 text-white">{university.Name?.S}</h1>
-      <p className="mb-2 text-white font-bold"><strong>State:</strong> {university.State?.S}</p>
-      <p className="mb-2 text-white font-bold"><strong>Conference:</strong> {university.Conference?.S}</p>
-      <p className="mb-2 text-white font-bold"><strong>Type:</strong> {university.Type?.S}</p>
-      <p className="mb-2 text-white font-bold"><strong>Division:</strong> {university.Division?.S}</p>
+    <div className="w-full bg-gray-900 min-h-screen">
+      <h1 className="text-4xl font-bold text-white text-center leading-none">
+        University Football Roster
+      </h1>
+
+      {/* University name and field with no gap */}
+      <div className="flex flex-col items-center text-center leading-none">
+        <h2 className="text-2xl font-semibold text-gray-300 mb-0 leading-none">
+          {universityName}
+        </h2>
+
+        {/* Football Pitch */}
+        <div
+          className="relative w-[90%] h-[900px] border-4 border-white rounded-xl overflow-hidden shadow-2xl"
+          style={{
+            background: `
+              repeating-linear-gradient(
+                to bottom,
+                #1a781a,
+                #1a781a 55px,
+                #229922 55px,
+                #229922 110px
+              )
+            `,
+            transform: "perspective(1400px) rotateX(20deg)",
+            transformOrigin: "bottom center",
+          }}
+        >
+          {/* End Zones */}
+          <div className="absolute top-0 left-0 w-full h-[80px] bg-[#0e4e0e] flex items-center justify-center text-white font-extrabold text-2xl tracking-wider z-20">
+            DEFENSE
+          </div>
+          <div className="absolute bottom-0 left-0 w-full h-[80px] bg-[#0e4e0e] flex items-center justify-center text-white font-extrabold text-2xl tracking-wider z-20 rotate-180">
+            OFFENSE
+          </div>
+
+          {/* Yard Numbers with spacing */}
+          {yards.map((yard, i) => (
+              <React.Fragment key={i}>
+                <div
+                  className="absolute left-4 text-white text-xl font-bold z-30"
+                  style={{ top: `${12 + (i / (yards.length - 1)) * 76}%` }}
+                >
+                  {yard}
+                </div>
+                <div
+                  className="absolute right-4 text-white text-xl font-bold z-30"
+                  style={{ top: `${12 + (i / (yards.length - 1)) * 76}%` }}
+                >
+                  {yard}
+                </div>
+              </React.Fragment>
+            ))}
+
+          {/* Example Player Positions */}
+          {players.map(({ name, position, number, left, top }, index) => (
+            <div
+              key={index}
+              className="absolute"
+              style={{ left, top }}
+            >
+              <PlayerCard name={name} position={position} number={number} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
