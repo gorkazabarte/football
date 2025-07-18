@@ -57,7 +57,7 @@ const Universities: React.FC = () => {
     >
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-6">
-          🎓 Partner Universities
+          Partner Universities
         </h1>
 
         {loading ? (

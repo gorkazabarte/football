@@ -48,7 +48,7 @@ const Schools: React.FC = () => {
     <div id="schools" className="scroll-mt-20 p-6 md:p-10 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-6">
-          🏫 Partner Schools
+          Partner Schools
         </h1>
 
         {loading ? (

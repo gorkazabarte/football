@@ -46,7 +46,7 @@ const Contact = () => {
           className="max-w-4xl mx-auto"
         >
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-            Get in Touch ☎️
+            Get in Touch
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">

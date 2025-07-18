@@ -17,7 +17,7 @@ const About = () => {
                 we are committed partners in the personal and professional growth of every player we represent.
               </p>
               <div>
-                <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2"> 🌟 Our Mission </h3>
+                <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2"> Our Mission </h3>
                 <p>
                     We aim to guide footballers through every stage of their careers — from youth development to success —
                     with strategic planning, ethical representation, and unwavering support.
@@ -26,7 +26,7 @@ const About = () => {
 
               <div>
                 <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2">
-                  ⚽ What We Do
+                  What We Do
                 </h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>Career development & mentoring</li>
@@ -38,7 +38,7 @@ const About = () => {
 
               <div>
                 <h3 className="text-xl font-semibold text-black dark:text-white mt-6 mb-2">
-                  🤝 Why Choose FIA
+                  Why Choose FIA
                 </h3>
                 <p>
                   Our team is built on <span className="font-semibold">integrity, trust, and results</span>.
@@ -48,8 +48,14 @@ const About = () => {
             </div>
 
             <div className="flex justify-center">
-              <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="relative w-64 h-64 rounded-full overflow-hidden">
-                <img src={teamImg} alt="FIA" className="w-full h-full object-cover"/>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="relative w-80 h-80 overflow-hidden bg-white dark:bg-gray-950"
+              >
+                <img src={teamImg} alt="FIA" className="w-full h-full object-contain" />
               </motion.div>
             </div>
           </div>
